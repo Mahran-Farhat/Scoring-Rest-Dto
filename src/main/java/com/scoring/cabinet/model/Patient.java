@@ -2,6 +2,7 @@ package com.scoring.cabinet.model;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="clients")
@@ -15,6 +16,9 @@ public class Patient {
     @Column(unique = true)
     private String email;
     private String phone;
+
+    @OneToMany(mappedBy = "patient",fetch = FetchType.LAZY)
+    private List<Rdv> rdvs;
 
     public Patient(){
 
@@ -58,5 +62,21 @@ public class Patient {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public long getId_patient() {
+        return id_patient;
+    }
+
+    public void setId_patient(long id_patient) {
+        this.id_patient = id_patient;
+    }
+
+    public List<Rdv> getRdvs() {
+        return rdvs;
+    }
+
+    public void setRdvs(List<Rdv> rdvs) {
+        this.rdvs = rdvs;
     }
 }
