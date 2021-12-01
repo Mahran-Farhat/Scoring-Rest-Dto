@@ -18,10 +18,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         );
     }
 
-    @ExceptionHandler(Exception.class)
+ /*   @ExceptionHandler(Exception.class)
     public ResponseEntity<?> internal_error(Exception ex){
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                 new ResponseMessage("Internal Server Error")
         );
-    }
+    }*/
 }
