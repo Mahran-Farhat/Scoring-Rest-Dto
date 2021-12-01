@@ -4,21 +4,20 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="rdv")
+@Table(name="rdvs")
 public class Rdv {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private LocalDateTime time;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "id-patient",referencedColumnName = "id_patient")
+    @JoinColumn(name = "id_patient",referencedColumnName = "id_patient")
     // Foreign key(id_patient) references patient(id_patient)
     private Patient patient;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "id-doctor",referencedColumnName = "id")
+    @JoinColumn(name = "id_doctor",referencedColumnName = "id")
     // Foreign key(id_doctor) references doctors(id)
     private Doctor doctor;
 
