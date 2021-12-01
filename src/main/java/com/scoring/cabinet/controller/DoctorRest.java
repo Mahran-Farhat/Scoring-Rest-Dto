@@ -5,11 +5,16 @@ import com.scoring.cabinet.exception.ResponseMessage;
 import com.scoring.cabinet.model.Doctor;
 import com.scoring.cabinet.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.print.Doc;
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/")
@@ -19,7 +24,7 @@ public class DoctorRest {
     DoctorService agent;
 
     @PostMapping("/doctors")
-    public Doctor add_Doctor(@RequestBody Doctor doctor){
+    public Doctor add_Doctor( @Valid @RequestBody Doctor doctor){
         return this.agent.saveorupdate(doctor);
     }
 
@@ -46,7 +51,7 @@ public class DoctorRest {
     }
 
     @PutMapping("/doctors/{id}")
-    public Doctor update_doctor(@PathVariable("id") long id, @RequestBody Doctor doctor) throws ResourceNotFound{
+    public Doctor update_doctor(@PathVariable("id") long id, @Valid @RequestBody Doctor doctor) throws ResourceNotFound{
         Doctor d = this.agent.find_doctor(id).orElseThrow(
                 ()-> new ResourceNotFound("Doctor not found for id : "+id)
         );
@@ -55,6 +60,17 @@ public class DoctorRest {
         d.setLastname(doctor.getLastname());
         d.setSpeciality(doctor.getSpeciality());
         return agent.saveorupdate(d);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
+
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                errors.put(error.getField(), error.getDefaultMessage()));
+
+        return errors;
     }
 
 }
