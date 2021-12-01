@@ -1,9 +1,11 @@
 package com.scoring.cabinet.controller;
 
 import com.scoring.cabinet.exception.ResourceNotFound;
+import com.scoring.cabinet.exception.ResponseMessage;
 import com.scoring.cabinet.model.Doctor;
 import com.scoring.cabinet.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +33,15 @@ public class DoctorRest {
                 ()-> new ResourceNotFound("Doctor not found for id : "+id)
         );
         return doctor;
+    }
+
+    @DeleteMapping("/doctors/{id}")
+    public ResponseEntity<?> delete_doctor(@PathVariable("id") long id) throws ResourceNotFound{
+        Doctor doctor = this.agent.find_doctor(id).orElseThrow(
+                ()-> new ResourceNotFound("Doctor not found for id : "+id)
+        );
+        this.agent.delete_Doctor(id);
+        return ResponseEntity.ok().body(new ResponseMessage("deleted : True"));
     }
 
 }
