@@ -19,13 +19,13 @@ public class DoctorDtoRest {
     DoctorMapper mapper;
 
     @PostMapping("/doctors")
-    public DoctorDto agg_doctor(@RequestBody DoctorDto dto){
+    public DoctorDto add_doctor(@RequestBody DoctorDto dto){
         return mapper.modelToDto(this.agent.saveorupdate(mapper.dtoToModel(dto)));
     }
 
     @GetMapping("/doctors")
     public List<DoctorDto> consulte(){
-        return mapper.listModelToDta(agent.consulte());
+        return mapper.listModelToDto(agent.consulte());
     }
 
 }

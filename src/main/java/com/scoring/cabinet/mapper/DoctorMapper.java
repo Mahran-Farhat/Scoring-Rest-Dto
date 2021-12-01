@@ -38,7 +38,7 @@ public class DoctorMapper {
         return dtos.stream().map(item -> dtoToModel(item)).collect(Collectors.toList());
     }
 
-    public List<DoctorDto> listModelToDta(List<Doctor> models){
+    public List<DoctorDto> listModelToDto(List<Doctor> models){
         return models.stream().map(item -> modelToDto(item)).collect(Collectors.toList());
     }
 
