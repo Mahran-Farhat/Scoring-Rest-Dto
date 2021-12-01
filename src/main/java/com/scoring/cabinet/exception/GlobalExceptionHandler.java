@@ -1,5 +1,6 @@
 package com.scoring.cabinet.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,6 +15,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         // envoyer un email/sms à un responsable
         return ResponseEntity.ok().body(
                 new ResponseMessage(ex.getMessage())
+        );
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> internal_error(Exception ex){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                new ResponseMessage("Internal Server Error")
         );
     }
 }
