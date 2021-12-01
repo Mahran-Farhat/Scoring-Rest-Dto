@@ -11,6 +11,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     // dans le cas ou l'exception déclenchée est de type ReourceNotFound
     @ExceptionHandler(ResourceNotFound.class)
     public ResponseEntity<?> object_not_found(ResourceNotFound ex){
-        return
+        // envoyer un email/sms à un responsable
+        return ResponseEntity.ok().body(
+                new ResponseMessage(ex.getMessage())
+        );
     }
 }
