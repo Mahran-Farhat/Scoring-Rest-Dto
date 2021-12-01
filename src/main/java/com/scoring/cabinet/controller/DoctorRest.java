@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.Doc;
 import java.util.List;
 
 @RestController
@@ -42,6 +43,18 @@ public class DoctorRest {
         );
         this.agent.delete_Doctor(id);
         return ResponseEntity.ok().body(new ResponseMessage("deleted : True"));
+    }
+
+    @PutMapping("/doctors/{id}")
+    public Doctor update_doctor(@PathVariable("id") long id, @RequestBody Doctor doctor) throws ResourceNotFound{
+        Doctor d = this.agent.find_doctor(id).orElseThrow(
+                ()-> new ResourceNotFound("Doctor not found for id : "+id)
+        );
+
+        d.setFirstname(doctor.getFirstname());
+        d.setLastname(doctor.getLastname());
+        d.setSpeciality(doctor.getSpeciality());
+        return agent.saveorupdate(d);
     }
 
 }
